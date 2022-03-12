@@ -1,7 +1,7 @@
 #include<iostream>
 #include<windows.h>
 using namespace std;
-const int N=10;
+const int N=100;
 int* res;
 int** mat;
 int* arr;
@@ -34,7 +34,8 @@ void cacheOptiFunc()
     int cir=1000;
     for(int k=0;k<cir;k++)
     {
-        for(int i=0;i<N;i++) res[i]=0;
+        //for(int i=0;i<N;i++) res[i]=0;
+        memset(res,0,sizeof(res));
         for(int j=0;j<N;j++)
             for(int i=0;i<N;i++)
                 res[i]+=mat[j][i]*arr[j];
@@ -58,11 +59,11 @@ int main()
 
     cout<<"平凡算法："<<endl;
     commonFunc();
-    for(int i=0;i<N;i++) cout<<res[i]<<" ";
+    for(int i=0;i<10;i++) cout<<res[i]<<" ";
     cout<<endl;
 
     cout<<"优化算法："<<endl;
     cacheOptiFunc();
-    for(int i=0;i<N;i++) cout<<res[i]<<" ";
+    for(int i=0;i<10;i++) cout<<res[i]<<" ";
 
 }
