@@ -1,8 +1,8 @@
 #include<iostream>
 #include<sys/time.h>
-#include<windows.h>
+#include<string>
 using namespace std;
-const int N=10;
+const int N=200;
 int res[N];
 int mat[N][N];
 int arr[N];
@@ -22,7 +22,8 @@ void commonFunc()
         }
     }
     gettimeofday(&tv_end,NULL);
-    cout<<-double((tv_begin.tv_usec - tv_end.tv_usec)/1000.0)/cir<<"ms"<<endl;
+    cout<<(tv_begin.tv_usec - tv_end.tv_usec)<<endl;
+    cout<<-((tv_begin.tv_usec - tv_end.tv_usec)/1000.0)/cir<<"ms"<<endl;
 
 }
 
@@ -40,7 +41,8 @@ void cacheOptiFunc()
                 res[i]+=mat[j][i]*arr[j];
     }
     gettimeofday(&tv_end,NULL);
-    cout<<-double((tv_begin.tv_usec - tv_end.tv_usec)/1000.0)/cir<<"ms"<<endl;
+    cout<<(tv_begin.tv_usec - tv_end.tv_usec)<<endl;
+    cout<<-((tv_begin.tv_usec - tv_end.tv_usec)/1000.0)/cir<<"ms"<<endl;
 }
 
 
