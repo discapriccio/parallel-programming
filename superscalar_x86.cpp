@@ -2,10 +2,11 @@
 #include<windows.h>
 using namespace std;
 
-const long long N=1<<15;     //取2的n次幂，方便递归设计
+const long long N=1<<17;     //取2的n次幂，方便递归设计
 int arr[N];
-long long ans;
-long long head, tail, freq;  //timers
+unsigned long long ans;
+unsigned long long head, tail, freq;  //timers
+int cir=1000;
 
 void commonFunc()
 {
@@ -16,10 +17,10 @@ void commonFunc()
     }
 
 }
-void ssOpti1()
+void ssOpti1_2()
 {
     ans=0;
-    int sum1=0,sum2=0;
+    unsigned long long sum1=0,sum2=0;
     for(int i=0;i<N;i+=2)
     {
         sum1+=arr[i];
@@ -28,9 +29,23 @@ void ssOpti1()
     ans=sum1+sum2;
 }
 
+void ssOpti1_3()
+{
+    ans=0;
+    unsigned long long sum1=0,sum2=0,sum3=0;
+    for(int i=0;i<N;i+=3)
+    {
+        sum1+=arr[i];
+        sum2+=arr[i+1];
+        sum3+=arr[i+2];
+    }
+    ans=sum1+sum2+sum3  ;
+}
+
+
 void ssOpti2()  //super scalar optimize
 {
-    int temp[N];
+    unsigned long long temp[N];
     for(int i=0;i<N;i++) temp[i]=arr[i];
     for(int m=N;m>1;m/=2)
     {
@@ -48,7 +63,6 @@ int main()
 
     QueryPerformanceFrequency((LARGE_INTEGER*)&freq);
     QueryPerformanceCounter((LARGE_INTEGER*)&head);
-    int cir=1000;
     for(int k=0;k<cir;k++)
     {
         commonFunc();
@@ -62,12 +76,21 @@ int main()
     QueryPerformanceCounter((LARGE_INTEGER*)&head);
     for(int k=0;k<cir;k++)
     {
-        ssOpti1();
+        ssOpti1_2();
     }
     QueryPerformanceCounter((LARGE_INTEGER*)&tail );
     cout<<( tail-head) * 1000.0 / freq /cir <<"ms"<<endl;
     cout<<ans<<endl;
 
+    QueryPerformanceFrequency((LARGE_INTEGER*)&freq);
+    QueryPerformanceCounter((LARGE_INTEGER*)&head);
+    for(int k=0;k<cir;k++)
+    {
+        ssOpti1_3();
+    }
+    QueryPerformanceCounter((LARGE_INTEGER*)&tail );
+    cout<<( tail-head) * 1000.0 / freq /cir <<"ms"<<endl;
+    cout<<ans<<endl;
 
 
     QueryPerformanceFrequency((LARGE_INTEGER*)&freq);
