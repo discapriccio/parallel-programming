@@ -1,8 +1,7 @@
 #include<iostream>
-#include<cstring>
 #include<windows.h>
 using namespace std;
-const int N=10000;
+const int N=5000;
 int* res;
 int** mat;
 int* arr;
@@ -13,7 +12,7 @@ void commonFunc()
 
     QueryPerformanceFrequency((LARGE_INTEGER*)&freq);
     QueryPerformanceCounter((LARGE_INTEGER*)&head);
-    int cir=1;
+    int cir=10;
     for(int k=0;k<cir;k++)
     {
         for(int j=0;j<N;j++)
@@ -32,7 +31,7 @@ void cacheOptiFunc()
 {
     QueryPerformanceFrequency((LARGE_INTEGER*)&freq);
     QueryPerformanceCounter((LARGE_INTEGER*)&head);
-    int cir=1;
+    int cir=10;
     for(int k=0;k<cir;k++)
     {
         //for(int i=0;i<N;i++) res[i]=0;

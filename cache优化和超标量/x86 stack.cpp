@@ -1,7 +1,7 @@
 #include<iostream>
 #include<windows.h>
 using namespace std;
-const int N=2000;
+const int N=10;
 int res[N];
 int mat[N][N];
 int arr[N];
