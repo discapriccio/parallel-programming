@@ -1,11 +1,15 @@
 #include <iostream>
 #include<arm_neon.h>
+#include<sys/time.h>
 using namespace std;
 
-const int N=5;
+const int N=10;
 float** init;
 float** m1;
 float** m2;
+unsigned long long ans;
+unsigned long diff;
+int cir=10000;
 
 void m_reset(float** m)
 {
@@ -83,7 +87,8 @@ bool check(float** m1,float** m2)
 
 int main()
 {
-    cout << "Hello world!" << endl;
+    struct timeval tv_begin,tv_end;
+	
 	init=new float*[N];
 	for(int i=0;i<N;i++) init[i]=new float[N];
 	m1=new float*[N];
@@ -94,23 +99,36 @@ int main()
     m_reset(init);
     m1=init;
 	m2=init;
-    ord_GE(m1);
-    NEON_GE(m2);
+	
+	gettimeofday(&tv_begin,NULL);
+	for(int k=0;k<cir;k++)
+		ord_GE(m1);
+	gettimeofday(&tv_end,NULL);
+    diff = 1000000 * (tv_end.tv_sec-tv_begin.tv_sec)+ tv_end.tv_usec-tv_begin.tv_usec;
+    cout<<"ordinary:"<<(diff/1000.0)/cir<<"ms"<<endl;
+	
+	gettimeofday(&tv_begin,NULL);
+	for(int k=0;k<cir;k++)
+		NEON_GE(m2);
+	gettimeofday(&tv_end,NULL);
+    diff = 1000000 * (tv_end.tv_sec-tv_begin.tv_sec)+ tv_end.tv_usec-tv_begin.tv_usec;
+    cout<<"simd:"<<(diff/1000.0)/cir<<"ms"<<endl;
+	
     bool flag=check(m1,m2);
     if(flag==1) cout<<"correct"<<endl;
     else cout<<"wrong"<<endl;
-    cout<<"ordinary result£º"<<endl;
-    for(int i=0;i<N;i++)
-    {
-        for(int j=0;j<N;j++) cout<<m1[i][j]<<"  ";
-        cout<<endl;
-    }
+    //cout<<"ordinary result£º"<<endl;
+    //for(int i=0;i<N;i++)
+    //{
+    //    for(int j=0;j<N;j++) cout<<m1[i][j]<<"  ";
+    //    cout<<endl;
+    //}
 	
-	cout<<"simd result£º"<<endl;
-    for(int i=0;i<N;i++)
-    {
-        for(int j=0;j<N;j++) cout<<m2[i][j]<<"  ";
-        cout<<endl;
-    }
+	//cout<<"simd result£º"<<endl;
+    //for(int i=0;i<N;i++)
+    //{
+    //    for(int j=0;j<N;j++) cout<<m2[i][j]<<"  ";
+    //    cout<<endl;
+    //}
     return 0;
 }
