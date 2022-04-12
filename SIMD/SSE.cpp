@@ -3,11 +3,12 @@
 #include<windows.h>
 using namespace std;
 
-const int N=10;
+const int N=100;
 float** init;
 float** m1;
 float** m2;
-unsigned long long head, tail, freq;  //timers
+float** m3;
+unsigned long long  head, tail, freq;  //timers
 int cir=1000;
 
 void m_reset(float** m)
@@ -74,6 +75,51 @@ void SSE_GE_unaligned(float** m)  //SSE SIMD 不对齐
     }
 }
 
+void SSE_GE_aligned(float** m)  //SSE SIMD 对齐
+{
+    for(int k=0;k<N;k++)
+    {
+        __m128 vt,va;
+        vt=_mm_set1_ps(m[k][k]);
+        int j=k+1;
+        while(j%4!=0)
+        {
+            m[k][j]=m[k][j]/m[k][k];
+            j++;
+        }
+        for(j;j+4<N;j+=4)
+        {
+            va=_mm_load_ps(m[k]+j);
+            va=_mm_div_ps(va,vt);
+            _mm_store_ps(m[k]+j,va);
+        }
+        for(j;j<N;j++) m[k][j]=m[k][j]/m[k][k];  //处理剩下不足四个的
+        m[k][k]=1.0;
+        for(int i=k+1;i<N;i++)
+        {
+            __m128 vik,vij,vkj;
+            vik=_mm_set1_ps(m[i][k]);
+            int j=k+1;
+            while(j%4!=0)
+            {
+                m[i][j]=m[i][j]-m[i][k]*m[k][j];
+                j++;
+            }
+            for(j;j+4<N;j+=4)
+            {
+                vij=_mm_load_ps(m[i]+j);
+                vkj=_mm_load_ps(m[k]+j);
+                vik=_mm_mul_ps(vik,vkj);
+                vij=_mm_sub_ps(vij,vik);
+                _mm_store_ps(m[i]+j,vij);
+            }
+            for(j;j<N;j++) m[i][j]=m[i][j]-m[i][k]*m[k][j];  //处理剩下不足四个的
+            m[i][k]=0;
+        }
+    }
+}
+
+
 bool check(int** m1,int** m2)
 {
     for(int i=0;i<N;i++)
@@ -101,10 +147,13 @@ int main()
 	for(int i=0;i<N;i++) m1[i]=new float[N];
 	m2=new float*[N];
 	for(int i=0;i<N;i++) m2[i]=new float[N];
+    m3=new float*[N];
+	for(int i=0;i<N;i++) m3[i]=new float[N];
 
     m_reset(init);
     m1=init;
 	m2=init;
+	m3=init;
 
 	QueryPerformanceFrequency((LARGE_INTEGER*)&freq);
     QueryPerformanceCounter((LARGE_INTEGER*)&head);
@@ -120,7 +169,14 @@ int main()
 	QueryPerformanceCounter((LARGE_INTEGER*)&tail );
     cout<<"SSE unaligned:"<<( tail-head) * 1000.0 / freq /cir <<"ms"<<endl;
 
-    bool flag=check(m1,m2);
+    QueryPerformanceFrequency((LARGE_INTEGER*)&freq);
+    QueryPerformanceCounter((LARGE_INTEGER*)&head);
+	for(int k=0;k<cir;k++)
+		SSE_GE_aligned(m3);
+	QueryPerformanceCounter((LARGE_INTEGER*)&tail );
+    cout<<"SSE aligned:"<<( tail-head) * 1000.0 / freq /cir <<"ms"<<endl;
+
+    bool flag=check(m1,m2)&&check(m2,m3);
     if(flag==1) cout<<"correct"<<endl;
     else cout<<"wrong"<<endl;
     //cout<<"ordinary result："<<endl;
