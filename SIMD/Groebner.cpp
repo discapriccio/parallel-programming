@@ -19,7 +19,7 @@ struct Hang
 vector<Hang> vecHang; //被消元行
 vector<unsigned int*> vecZi; //消元子
 
-int N = 64;  //矩阵列数
+int N = 130;  //矩阵列数
 int segment = ceil(N / 32.0);
 int tail = 32 * segment - N;
 
