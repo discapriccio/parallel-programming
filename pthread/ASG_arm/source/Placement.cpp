@@ -9,7 +9,6 @@
 #include <semaphore.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
 
 using namespace std;
 void bfsInitPlacement(Net netParam)  //bfs初步布局
