@@ -1,3 +1,0 @@
-C:/Users/xingyu/CLionProjects/ASG/cmake-build-debug/CMakeFiles/ASG.dir
-C:/Users/xingyu/CLionProjects/ASG/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/xingyu/CLionProjects/ASG/cmake-build-debug/CMakeFiles/rebuild_cache.dir
