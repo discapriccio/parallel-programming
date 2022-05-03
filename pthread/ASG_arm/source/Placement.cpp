@@ -16,7 +16,8 @@ void bfsInitPlacement(Net netParam)  //bfs初步布局
     vector<vector<int>> rowCol;  //记录每行每列的元件id（外层vector为col，内层vector为row）
     bool* isSelected=new bool[netParam.devices.size()];  //元件是否已被安排行列号
     int cnt=0;  //已有多少元件已被安排行列号
-    memset(isSelected,0,sizeof(isSelected));
+    //memset(isSelected,0,sizeof(isSelected));
+    memset(isSelected,0,sizeof(bool)*netParam.devices.size());
     vector<int> colVec;
     int curRow=0;
     for(int i=0;i<netParam.devices.size();i++) //遍历找到入度为零的（isStart==true）放到第一列
@@ -81,7 +82,7 @@ int cnt;
 vector<int> colVec;
 vector<vector<int>> rowCol; //记录每行每列的元件id（外层vector为col，内层vector为row）
 
-int thread_count=8;  //线程数量
+int thread_count=4;  //线程数量
 typedef struct{
     int	threadId;
 } threadParm_t1;
@@ -173,7 +174,8 @@ void bfsInitPlacementParr(Net netParam)  //并行bfs初步布局
     net = netParam;
     isSelected = new bool[net.devices.size()];  //元件是否已被安排行列号
     cnt = 0;  //已有多少元件已被安排行列号
-    memset(isSelected, 0, sizeof(isSelected));
+    memset(isSelected,0,sizeof(bool)*netParam.devices.size());
+       
     //vector<int> colVec;
 
     //pthread_t* thread_handles; //线程句柄

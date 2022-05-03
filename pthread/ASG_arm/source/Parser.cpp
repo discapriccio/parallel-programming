@@ -229,6 +229,7 @@ void parser(string path, vector<Net>&v)
                 inFile.get(b);
                 if (a == '\n' && b != '+')
                 {
+		    cout<<"\n + 1"<<endl;
                     Stream s;
                     s.name=tmp;
                     s.isIn=true;
@@ -257,6 +258,7 @@ void parser(string path, vector<Net>&v)
                     Device d;
                     d.name=tmp;
                     n.devices.push_back(d);
+		    //cout<<n.devices.size()<<endl;
                     int id=n.devices.size()- 1;
                     n.dev2ind.insert(pair<string, int> (tmp, id));
                     for (int i = 0; i < 4; i++)  //读入四条线
@@ -278,6 +280,7 @@ void parser(string path, vector<Net>&v)
                     Device d;
                     d.name=tmp;
                     n.devices.push_back(d);
+		    cout<<n.devices.size()<<endl;
                     n.dev2ind.insert(pair<string, int> (tmp, n.devices.size()- 1));
 
                     inFile >> tmp;
@@ -305,7 +308,10 @@ void parser(string path, vector<Net>&v)
                             cur = inFile.tellg();
                             inFile.get(a);
                             inFile.get(b);
-                            if (a == '\n' && b != '+') {
+                            //if (a == '\n' && b != '+')
+                            //if(a=='\n'&& b!=48) 
+                            if(a=='\r'&&b!='+'){
+				//cout<<"get in +"<<endl;
                                 s.name = tmp;
                                 if (n.stream2ind.insert(pair<string, int>(tmp, n.streams.size())).second)
                                     n.streams.push_back(s);
@@ -331,6 +337,7 @@ void parser(string path, vector<Net>&v)
                 getline(inFile, tmp);
                 inFile >> tmp;
             }
+	    cout<<"read in phrase 1 done"<<endl;
 
             //预处理，填充device-device
             for(int i=0;i<n.streams.size();i++)

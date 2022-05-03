@@ -8,7 +8,7 @@
 #include"../head/Placement.h"
 
 int main() {
-    string path = "ram2.spi";
+    string path = "34696.spi";
     vector<Net> netVector;
 
     int cir=1;
@@ -17,7 +17,7 @@ int main() {
     parser(path, netVector);
     gettimeofday(&tv_end, NULL);
     unsigned long long diff = 1000000 * (tv_end.tv_sec - tv_begin.tv_sec) + tv_end.tv_usec - tv_begin.tv_usec;
-cout << "time for parser:"<<(diff / 1000.0) / cir << "ms" << endl;
+    cout << "time for parser:"<<(diff / 1000.0) / cir << "ms" << endl;
 
     int tm=0;
 
@@ -57,8 +57,6 @@ cout << "time for parser:"<<(diff / 1000.0) / cir << "ms" << endl;
         }
         cout<<endl;
     }*/
-
-    cir=1;
     gettimeofday(&tv_begin, NULL);
     for(int i=0;i<cir;i++)
         bfsInitPlacement(netVector[tm]);

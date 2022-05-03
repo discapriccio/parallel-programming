@@ -14,7 +14,7 @@ public:
     string name;  //元件名称
     vector<int> s;  //与此元件连接的线
     vector<int> d;  //与此元件连接的元件
-    bool isStart=0;  //是否是入度为零的元件
+    bool isStart;  //是否是入度为零的元件
     int col;  //所在列号
     int row;  //所在行号
     bool isBad;  //是否是不和其他元件连接的元件
@@ -24,8 +24,8 @@ class Stream{
 public:
     string name; //线名称
     vector<int> d;  //与此线连接的元件
-    bool isIn=0;  //是否是总输入线
-    bool isOut=0;  //是否是总输出线
+    bool isIn;  //是否是总输入线
+    bool isOut;  //是否是总输出线
 };
 class Net {
 public:
