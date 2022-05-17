@@ -72,13 +72,14 @@ void bfsInitPlacement(Net& netParam,vector<vector<int>> &rowCol)  //bfs初步布
     }*/
 }
 
+int thread_count=7;  //线程数量
+
 Net net;
 bool* isSelected;
 int cnt;
 vector<int> colVec;
 vector<vector<int>> rowCol; //记录每行每列的元件id（外层vector为col，内层vector为row）
 
-int thread_count=4;  //线程数量
 typedef struct{
     int	threadId;
 } threadParm_t1;
@@ -188,7 +189,8 @@ void bfsInitPlacementParr(Net netParam)  //并行bfs初步布局（Pthread）
     rowCol.push_back(colVec);
 
     int curCol = 0;  //目前在从第几列的元件找下一列的元件
-    while (1) {
+    while (1)
+    {
         colVec.clear();
         if(rowCol[curCol].size()<50)  //数据规模较小时不并行
         {
@@ -232,7 +234,7 @@ void bfsInitPlacementParr(Net netParam)  //并行bfs初步布局（Pthread）
         //break;
     }
 
-/*    //验证
+    //验证
     cout<<endl;
     cout<<"test"<<endl;
     for(int i=0;i<rowCol.size();i++)
@@ -240,12 +242,13 @@ void bfsInitPlacementParr(Net netParam)  //并行bfs初步布局（Pthread）
         for(int j=0;j<rowCol[i].size();j++)
             cout<<rowCol[i][j]<<" ";
         cout<<"/"<<endl;
-    }*/
+    }
 }
 
-void bfsInitPlacementParrOmp(Net netParam)  //并行bfs初步布局（OpenMP）
+
+void bfsInitPlacementParrOmp(Net netParam,vector<vector<int>>& rowCol)  //并行bfs初步布局（OpenMP）
 {
-    vector<vector<int>> rowCol;  //记录每行每列的元件id（外层vector为col，内层vector为row）
+    //vector<vector<int>> rowCol;  //记录每行每列的元件id（外层vector为col，内层vector为row）
     bool* isSelected=new bool[netParam.devices.size()];  //元件是否已被安排行列号
     int cntOmp=0;  //已有多少元件已被安排行列号
     //memset(isSelected,0,sizeof(isSelected));  //isSelected是bool* 固定大小为8个字节
@@ -304,7 +307,7 @@ void bfsInitPlacementParrOmp(Net netParam)  //并行bfs初步布局（OpenMP）
             //cout<<curCol<<" "<<rowCol[curCol].size()<<endl;
             curCnt = 0;
             curColVec.clear();
-            if(omp_get_thread_num()==0)
+            if(omp_get_thread_num()==1)
             {
                 colVec.clear();
             }
@@ -331,7 +334,7 @@ void bfsInitPlacementParrOmp(Net netParam)  //并行bfs初步布局（OpenMP）
             cntOmp+=curCnt;
             omp_unset_lock(&lock2); //释放互斥器2
             #pragma omp barrier
-            if(omp_get_thread_num()==0)
+            if(omp_get_thread_num()==1)
             {
                 curCol++;   //只让主线程进行此操作，否则curCol将会加thread_num次
                 rowCol.push_back(colVec);
@@ -389,6 +392,122 @@ void valuePropagationOptiPlc(Net& netParam, vector<vector<int>> &rowCol)  //值�
         //bubbleSort(netParam,rowCol[i]);
         quickSort(netParam,rowCol[i],0,rowCol[i].size()-1);
         for(int j=0;j<rowCol[i].size();j++) netParam.devices[rowCol[i][j]].row=j;
+    }
+
+/*    //验证
+    for(int i=0;i<rowCol.size();i++)
+    {
+        for(int j=0;j<rowCol[i].size();j++)
+        {
+            cout<<rowCol[i][j]<<"("<<netParam.devices[rowCol[i][j]].value<<")    ";
+        }
+        cout<<endl;
+    }*/
+}
+
+void valuePropagationOptiPlcOmpDyna(Net& netParam, vector<vector<int>> &rowCol)  //值传播优化列内布局(OpenMP) 动态任务分配
+{
+    if(rowCol.size()==1) return;  //若只有一列，没有值传播调整的必要，直接返回
+    //为第一列赋初值
+    int scaler=1000;  //初值间隔系数
+    #pragma omp parallel num_threads(thread_count)
+    {
+        #pragma omp for schedule(dynamic)
+        for (int i = 0; i < rowCol[0].size(); i++)
+        {
+            netParam.devices[rowCol[0][i]].row = i;
+            netParam.devices[rowCol[0][i]].value = i * scaler;
+        }
+        //对后面列通过值传播进行调整
+        for (int i = 1; i < rowCol.size(); i++)
+        {
+            #pragma omp for schedule(dynamic)
+            for (int j = 0; j < rowCol[i].size(); j++)
+            {
+                //netParam.devices[rowCol[i][j]].row=j;
+                int value = 0;
+                int cnt = 0;
+                for (int k = 0; k < netParam.devices[rowCol[i][j]].d.size(); k++)
+                {
+                    int id = netParam.devices[rowCol[i][j]].d[k];
+                    if (netParam.devices[id].col == i - 1)  //只考虑与前一列元件的连接
+                    {
+                        cnt++;
+                        value += netParam.devices[id].value;
+                    }
+                }
+                netParam.devices[rowCol[i][j]].value = value / cnt;
+            }
+            //sort(rowCol[i].begin(),rowCol[i].end(),cmp1(netParam));
+            //bubbleSort(netParam,rowCol[i]);
+            //quickSort(netParam,rowCol[i],0,rowCol[i].size()-1);
+            //for(int j=0;j<rowCol[i].size();j++) netParam.devices[rowCol[i][j]].row=j;
+        }
+        //为并行加速将排序单独拿出来
+        #pragma omp for schedule(dynamic)
+        for (int i = 1; i < rowCol.size(); i++)
+        {
+            quickSort(netParam, rowCol[i], 0, rowCol[i].size() - 1);
+            for (int j = 0; j < rowCol[i].size(); j++) netParam.devices[rowCol[i][j]].row = j;
+        }
+    }
+
+/*    //验证
+    for(int i=0;i<rowCol.size();i++)
+    {
+        for(int j=0;j<rowCol[i].size();j++)
+        {
+            cout<<rowCol[i][j]<<"("<<netParam.devices[rowCol[i][j]].value<<")    ";
+        }
+        cout<<endl;
+    }*/
+}
+
+void valuePropagationOptiPlcOmp(Net& netParam, vector<vector<int>> &rowCol)  //值传播优化列内布局(OpenMP)
+{
+    if(rowCol.size()==1) return;  //若只有一列，没有值传播调整的必要，直接返回
+    //为第一列赋初值
+    int scaler=1000;  //初值间隔系数
+#pragma omp parallel num_threads(thread_count)
+    {
+#pragma omp for
+        for (int i = 0; i < rowCol[0].size(); i++)
+        {
+            netParam.devices[rowCol[0][i]].row = i;
+            netParam.devices[rowCol[0][i]].value = i * scaler;
+        }
+        //对后面列通过值传播进行调整
+        for (int i = 1; i < rowCol.size(); i++)
+        {
+#pragma omp for
+            for (int j = 0; j < rowCol[i].size(); j++)
+            {
+                //netParam.devices[rowCol[i][j]].row=j;
+                int value = 0;
+                int cnt = 0;
+                for (int k = 0; k < netParam.devices[rowCol[i][j]].d.size(); k++)
+                {
+                    int id = netParam.devices[rowCol[i][j]].d[k];
+                    if (netParam.devices[id].col == i - 1)  //只考虑与前一列元件的连接
+                    {
+                        cnt++;
+                        value += netParam.devices[id].value;
+                    }
+                }
+                netParam.devices[rowCol[i][j]].value = value / cnt;
+            }
+            //sort(rowCol[i].begin(),rowCol[i].end(),cmp1(netParam));
+            //bubbleSort(netParam,rowCol[i]);
+            //quickSort(netParam,rowCol[i],0,rowCol[i].size()-1);
+            //for(int j=0;j<rowCol[i].size();j++) netParam.devices[rowCol[i][j]].row=j;
+        }
+        //为并行加速将排序单独拿出来
+#pragma omp for
+        for (int i = 1; i < rowCol.size(); i++)
+        {
+            quickSort(netParam, rowCol[i], 0, rowCol[i].size() - 1);
+            for (int j = 0; j < rowCol[i].size(); j++) netParam.devices[rowCol[i][j]].row = j;
+        }
     }
 
 /*    //验证

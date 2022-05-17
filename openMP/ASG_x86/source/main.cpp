@@ -63,6 +63,12 @@ int main() {
     QueryPerformanceCounter(&tm2);
     time=(double)(tm2.QuadPart-tm1.QuadPart)/(double)tmc.QuadPart;
     cout<<"chuanxing (QueryPerformanceCounter):"<<time*1000/cir<<"ms"<<endl<<endl;
+    cout<<"size:"<<endl;
+    for(int i=0;i<rowCol.size();i++)
+    {
+        cout<<rowCol[i].size()<<" ";
+    }
+    cout<<endl;
 
 /*    QueryPerformanceFrequency(&tmc);
     QueryPerformanceCounter(&tm1);
@@ -71,14 +77,28 @@ int main() {
     QueryPerformanceCounter(&tm2);
     time=(double)(tm2.QuadPart-tm1.QuadPart)/(double)tmc.QuadPart;
     cout<<"parallel pthread (QueryPerformanceCounter):"<<time*1000/cir<<"ms"<<endl<<endl;
+    cout<<"rowCol size:"<<rowCol.size()<<endl;*/
 
-     QueryPerformanceFrequency(&tmc);
-     QueryPerformanceCounter(&tm1);
-     for(int i=0;i<cir;i++)
-         bfsInitPlacementParrOmp(netVector[tm]);  //并行bfs初步布局（OPenMP）
-     QueryPerformanceCounter(&tm2);
-     time=(double)(tm2.QuadPart-tm1.QuadPart)/(double)tmc.QuadPart;
-     cout<<"parallel OpenMP (QueryPerformanceCounter):"<<time*1000/cir<<"ms"<<endl<<endl;*/
+/*
+    vector<vector<int>> emp;
+
+    rowCol.clear();
+    rowCol.swap(emp);
+    cout<<"rowCol size:"<<rowCol.size()<<endl;
+    QueryPerformanceFrequency(&tmc);
+    QueryPerformanceCounter(&tm1);
+    for(int i=0;i<cir;i++)
+        bfsInitPlacementParrOmp(netVector[tm],rowCol);  //并行bfs初步布局（OPenMP）
+    QueryPerformanceCounter(&tm2);
+    time=(double)(tm2.QuadPart-tm1.QuadPart)/(double)tmc.QuadPart;
+    cout<<"parallel OpenMP (QueryPerformanceCounter):"<<time*1000/cir<<"ms"<<endl<<endl;
+    cout<<"size:"<<endl;
+    for(int i=0;i<rowCol.size();i++)
+    {
+        cout<<rowCol[i].size()<<" ";
+    }
+    cout<<endl;
+*/
 
     QueryPerformanceFrequency(&tmc);
     QueryPerformanceCounter(&tm1);
@@ -86,6 +106,34 @@ int main() {
         valuePropagationOptiPlc(netVector[tm],rowCol);
     QueryPerformanceCounter(&tm2);
     time=(double)(tm2.QuadPart-tm1.QuadPart)/(double)tmc.QuadPart;
-    cout<<"value propagation optimize placement (QueryPerformanceCounter):"<<time*1000/cir<<"ms"<<endl<<endl;
+    cout<<"chuanxing value propagation optimize placement (QueryPerformanceCounter):"<<time*1000/cir<<"ms"<<endl<<endl;
+
+    QueryPerformanceFrequency(&tmc);
+    QueryPerformanceCounter(&tm1);
+    for(int i=0;i<cir;i++)
+        valuePropagationOptiPlcOmp(netVector[tm],rowCol);
+    QueryPerformanceCounter(&tm2);
+    time=(double)(tm2.QuadPart-tm1.QuadPart)/(double)tmc.QuadPart;
+    cout<<"omp value propagation optimize placement (QueryPerformanceCounter):"<<time*1000/cir<<"ms"<<endl<<endl;
+    cout<<"size:"<<endl;
+    for(int i=0;i<rowCol.size();i++)
+    {
+        cout<<rowCol[i].size()<<" ";
+    }
+    cout<<endl;
+
+    QueryPerformanceFrequency(&tmc);
+    QueryPerformanceCounter(&tm1);
+    for(int i=0;i<cir;i++)
+        valuePropagationOptiPlcOmpDyna(netVector[tm],rowCol);
+    QueryPerformanceCounter(&tm2);
+    time=(double)(tm2.QuadPart-tm1.QuadPart)/(double)tmc.QuadPart;
+    cout<<"omp dynamic value propagation optimize placement (QueryPerformanceCounter):"<<time*1000/cir<<"ms"<<endl<<endl;
+    cout<<"size:"<<endl;
+    for(int i=0;i<rowCol.size();i++)
+    {
+        cout<<rowCol[i].size()<<" ";
+    }
+    cout<<endl;
     return 1;
 }
