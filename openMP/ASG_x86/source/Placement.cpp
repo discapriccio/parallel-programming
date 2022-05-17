@@ -387,19 +387,19 @@ void valuePropagationOptiPlc(Net& netParam, vector<vector<int>> &rowCol)  //值�
         }
         //sort(rowCol[i].begin(),rowCol[i].end(),cmp1(netParam));
         //bubbleSort(netParam,rowCol[i]);
-        quickSort(netParam,rowCol[i]);
+        quickSort(netParam,rowCol[i],0,rowCol[i].size()-1);
         for(int j=0;j<rowCol[i].size();j++) netParam.devices[rowCol[i][j]].row=j;
     }
 
-    //验证
+/*    //验证
     for(int i=0;i<rowCol.size();i++)
     {
         for(int j=0;j<rowCol[i].size();j++)
         {
-            cout<<rowCol[i][j]<<" ";
+            cout<<rowCol[i][j]<<"("<<netParam.devices[rowCol[i][j]].value<<")    ";
         }
         cout<<endl;
-    }
+    }*/
 }
 
 bool cmp1(int i,int j,Net netParam)
@@ -424,26 +424,16 @@ void bubbleSort(Net& netParam,vector<int>&curCol)
     }
 }
 
-void quickSort(Net& netParam,vector<int>&curCol)
+void quickSort(Net& netParam,vector<int>&curCol,int a,int b)
 {
-    if(curCol.size()==0||curCol.size()==1) return;
-    if(curCol.size()==2)
-    {
-        if(netParam.devices[curCol[0]].value>netParam.devices[curCol[1]].value)
-        {
-            int temp=curCol[0];
-            curCol[0]=curCol[1];
-            curCol[1]=temp;
-        }
-        return;
-    }
-    //int mid=curCol.size()/2;
-    double midValue=netParam.devices[curCol[0]].value;
-    int il=0,ir=curCol.size()-1;
+    if(a>=b) return;
+    double midValue=netParam.devices[curCol[a]].value;
+    int il=a,ir=b;
     while(il!=ir)
     {
+        while(netParam.devices[curCol[ir]].value>=midValue && il<ir) ir--;  //一定要右边的先移动
         while(netParam.devices[curCol[il]].value<=midValue && il<ir) il++;
-        while(netParam.devices[curCol[ir]].value>=midValue && il<ir) ir--;
+        //while(netParam.devices[curCol[ir]].value>=midValue && il<ir) ir--;
         if(il<ir)
         {
             int temp = curCol[il];
@@ -451,14 +441,9 @@ void quickSort(Net& netParam,vector<int>&curCol)
             curCol[ir] = temp;
         }
     }
-    int temp=curCol[0];
-    curCol[0]=curCol[ir];
+    int temp=curCol[a];
+    curCol[a]=curCol[ir];
     curCol[ir]=temp;
-    vector<int> left,right;
-    left.assign(curCol.begin(),curCol.begin()+ir-1);
-    right.assign(curCol.begin()+ir+1,curCol.end());
-    quickSort(netParam,left);
-    quickSort(netParam,right);
-    for(int i=0;i<left.size();i++) curCol[i]=left[i];
-    for(int i=0;i<right.size();i++) curCol[i+ir]=right[i];
+    quickSort(netParam,curCol,a,il-1);
+    quickSort(netParam,curCol,ir+1,b);
 }

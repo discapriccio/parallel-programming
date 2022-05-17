@@ -21,5 +21,5 @@ void bfsInitPlacementParrOmp(Net netParam);  //并行bfs初步布局（OpenMP）
 void valuePropagationOptiPlc(Net& netParam, vector<vector<int>>& rowCol);  //值传播优化列内布局
 bool cmp1(int i,int j,Net netParam);
 void bubbleSort(Net& netParam,vector<int>&curCol);
-void quickSort(Net& netParam,vector<int>&curCol);
+void quickSort(Net& netParam,vector<int>&curCol,int a,int b);
 #endif //ASG_PLACEMENT_H

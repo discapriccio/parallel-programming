@@ -5,7 +5,7 @@
 #include"../head/Placement.h"
 
 int main() {
-    string path = "ram.spi";
+    string path = "ram2.spi";
     vector<Net> netVector;
     LARGE_INTEGER tm1,tm2,tmc;
     QueryPerformanceFrequency(&tmc);
@@ -17,7 +17,7 @@ int main() {
     cout<<"Time for parser (QueryPerformanceCounter):"<<time*1000<<"ms"<<endl<<endl;
     cout<<netVector.size()<<endl;
 
-    int tm=27;
+    int tm=0;
     cout<<"device num:"<<netVector[tm].devices.size()<<endl;
 /*    //验证
     cout<<"device num:"<<netVector[tm].devices.size()<<endl;
