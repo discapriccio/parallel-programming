@@ -1,0 +1,553 @@
+*****************************************************************************
+* CDL Netlist:
+* Cell Name: ram
+* Netlisted on: Dec 21 13:51:54 2006
+*****************************************************************************
+
+
+*****************************************************************************
+* Global Net Declarations
+*****************************************************************************
+*.GLOBAL gnd vdd
+
+.OPTION SCALE=1E-6
+
+*****************************************************************************
+* PIN Control Statement
+*****************************************************************************
+*.PIN gnd vdd
+
+
+*****************************************************************************
+* BIPOLAR Declarations
+*****************************************************************************
+
+
+*.LDD
+
+*****************************************************************************
+* Parameter Statement
+*****************************************************************************
+.PARAM
+
+
+*******************************************************************************
+* Sub-Circuit Netlist:                                                        *
+*         0                                                                    *
+* Block: colmux                                                               *
+* Last Time Saved: Dec 12 11:40:47 2006                                       *
+*******************************************************************************
+.subckt colmux DB DB_ bl<15> bl<14> bl<13> bl<12> bl<11> bl<10> bl<9> bl<8>
++bl<7> bl<6> bl<5> bl<4> bl<3> bl<2> bl<1> bl<0> bl_<15> bl_<14> bl_<13>
++bl_<12> bl_<11> bl_<10> bl_<9> bl_<8> bl_<7> bl_<6> bl_<5> bl_<4> bl_<3>
++bl_<2> bl_<1> bl_<0> ysel<15> ysel<14> ysel<13> ysel<12> ysel<11> ysel<10>
++ysel<9> ysel<8> ysel<7> ysel<6> ysel<5> ysel<4> ysel<3> ysel<2> ysel<1>
++ysel<0>
+*.NOPIN gnd vdd
+MN0_15 bl<15> ysel<15> DB gnd n18ll w=1.5 l=0.18
+MN0_14 bl<14> ysel<14> DB gnd n18ll w=1.5 l=0.18
+MN0_13 bl<13> ysel<13> DB gnd n18ll w=1.5 l=0.18
+MN0_12 bl<12> ysel<12> DB gnd n18ll w=1.5 l=0.18
+MN0_11 bl<11> ysel<11> DB gnd n18ll w=1.5 l=0.18
+MN0_10 bl<10> ysel<10> DB gnd n18ll w=1.5 l=0.18
+MN0_9 bl<9> ysel<9> DB gnd n18ll w=1.5 l=0.18
+MN0_8 bl<8> ysel<8> DB gnd n18ll w=1.5 l=0.18
+MN0_7 bl<7> ysel<7> DB gnd n18ll w=1.5 l=0.18
+MN0_6 bl<6> ysel<6> DB gnd n18ll w=1.5 l=0.18
+MN0_5 bl<5> ysel<5> DB gnd n18ll w=1.5 l=0.18
+MN0_4 bl<4> ysel<4> DB gnd n18ll w=1.5 l=0.18
+MN0_3 bl<3> ysel<3> DB gnd n18ll w=1.5 l=0.18
+MN0_2 bl<2> ysel<2> DB gnd n18ll w=1.5 l=0.18
+MN0_1 bl<1> ysel<1> DB gnd n18ll w=1.5 l=0.18
+MN0_0 bl<0> ysel<0> DB gnd n18ll w=1.5 l=0.18
+MN1_15 bl_<15> ysel<15> DB_ gnd n18ll w=1.5 l=0.18
+MN1_14 bl_<14> ysel<14> DB_ gnd n18ll w=1.5 l=0.18
+MN1_13 bl_<13> ysel<13> DB_ gnd n18ll w=1.5 l=0.18
+MN1_12 bl_<12> ysel<12> DB_ gnd n18ll w=1.5 l=0.18
+MN1_11 bl_<11> ysel<11> DB_ gnd n18ll w=1.5 l=0.18
+MN1_10 bl_<10> ysel<10> DB_ gnd n18ll w=1.5 l=0.18
+MN1_9 bl_<9> ysel<9> DB_ gnd n18ll w=1.5 l=0.18
+MN1_8 bl_<8> ysel<8> DB_ gnd n18ll w=1.5 l=0.18
+MN1_7 bl_<7> ysel<7> DB_ gnd n18ll w=1.5 l=0.18
+MN1_6 bl_<6> ysel<6> DB_ gnd n18ll w=1.5 l=0.18
+MN1_5 bl_<5> ysel<5> DB_ gnd n18ll w=1.5 l=0.18
+MN1_4 bl_<4> ysel<4> DB_ gnd n18ll w=1.5 l=0.18
+MN1_3 bl_<3> ysel<3> DB_ gnd n18ll w=1.5 l=0.18
+MN1_2 bl_<2> ysel<2> DB_ gnd n18ll w=1.5 l=0.18
+MN1_1 bl_<1> ysel<1> DB_ gnd n18ll w=1.5 l=0.18
+MN1_0 bl_<0> ysel<0> DB_ gnd n18ll w=1.5 l=0.18
+.ends colmux
+
+
+*******************************************************************************
+* Sub-Circuit Netlist:                                                        *
+*                  1                                                           *
+* Block: inv                                                                  *
+* Last Time Saved: Aug 18 08:37:34 2004                                       *
+*******************************************************************************
+.subckt inv Y A ln=0.54 wn=2.7 lp=0.54 wp=5.4
+MP0 Y A vdd vdd p18ll w=wp l=lp
+MN0 Y A gnd gnd n18ll w=wn l=ln
+.ends inv
+
+
+*******************************************************************************
+* Sub-Circuit Netlist:                                                        *
+*                       2                                                      *
+* Block: nand2                                                                *
+* Last Time Saved: Aug 18 08:34:53 2004                                       *
+*******************************************************************************
+.subckt nand2 Y A B lp=0.54 wp=5.4 ln=0.54 wn=2.7
+MN0 net13 B gnd gnd n18ll w=wn l=ln
+MN1 Y A net13 gnd n18ll w=wn l=ln
+MP0 Y B vdd vdd p18ll w=wp l=lp
+MP1 Y A vdd vdd p18ll w=wp l=lp
+.ends nand2
+
+
+*******************************************************************************
+* Sub-Circuit Netlist:                                                        *
+*                            3                                                 *
+* Block: preck_gen                                                            *
+* Last Time Saved: Dec 12 11:40:19 2006                                       *
+*******************************************************************************
+.subckt preck_gen PRECK sck_bar
+XI3 net5 net17 inv ln=0.18 wn=0.4 lp=0.18 wp=1
+XI4 PRECK net5 inv ln=0.18 wn=1.5 lp=0.18 wp=4
+XI93 net018 sck_bar inv ln=1.0 wn=0.5 lp=1.0 wp=1.25
+XI92 net012 net018 inv ln=1.0 wn=0.5 lp=1.0 wp=1.25
+XI90 net7 net014 inv ln=1.0 wn=0.5 lp=1.0 wp=1.25
+XI91 net014 net012 inv ln=1.0 wn=0.5 lp=1.0 wp=1.25
+XI2 net17 sck_bar net7 nand2 lp=0.18 wp=0.6 ln=0.18 wn=0.4
+.ends preck_gen
+
+
+*******************************************************************************
+* Sub-Circuit Netlist:                                                        *
+*                        4                                                     *
+* Block: rdwr_drive                                                           *
+* Last Time Saved: Dec 12 11:40:57 2006                                       *
+*******************************************************************************
+.subckt rdwr_drive dout BL BL_ preck rd_en wr_en wrdata wrdata_
+MN8 vdd net8 BL_ vdd p18ll w=6 l=0.18
+MP0 BL net23 vdd vdd p18ll w=6 l=0.18
+MP4 BL_ preck vdd vdd p18ll w=2.0 l=0.18
+MP1 BL preck vdd vdd p18ll w=2.0 l=0.18
+MP5 BL_ preck BL vdd p18ll w=0.5 l=0.18
+MN7 vdd net090 dout vdd p18ll w=6 l=0.18
+XI53 net063 rd_en data_out_ nand2 lp=0.18 wp=1 ln=0.18 wn=0.8
+XI34 net26 wrdata wr_en nand2 lp=0.18 wp=1 ln=0.18 wn=0.8
+XI33 net8 wr_en wrdata_ nand2 lp=0.18 wp=1 ln=0.18 wn=0.8
+XI32 net20 wr_en wrdata_ nand2 lp=0.18 wp=1 ln=0.18 wn=0.8
+XI18 net23 wrdata wr_en nand2 lp=0.18 wp=1 ln=0.18 wn=0.8
+XI52 net090 data_out rd_en nand2 lp=0.18 wp=1 ln=0.18 wn=0.8
+MP3 gnd net089 BL_ gnd n18ll w=2 l=0.18
+MN5 BL net0103 gnd gnd n18ll w=2 l=0.18
+MN4 data_out_ net32 gnd gnd n18ll w=1 l=0.18
+MN0 data_out net52 gnd gnd n18ll w=1 l=0.18
+MN9 gnd net0112 dout gnd n18ll w=2 l=0.18
+XI49 net0112 net063 inv ln=0.18 wn=0.3 lp=0.18 wp=0.6
+XI46 net089 net26 inv ln=0.18 wn=0.3 lp=0.18 wp=0.6
+XI42 data_out_ data_out inv ln=0.18 wn=0.3 lp=0.18 wp=0.6
+XI45 net0103 net20 inv ln=0.18 wn=0.3 lp=0.18 wp=0.6
+XI41 net32 BL_ inv ln=0.18 wn=0.4 lp=0.18 wp=1
+XI6 net52 BL inv ln=0.18 wn=0.4 lp=0.18 wp=1
+XI43 data_out data_out_ inv ln=0.18 wn=0.3 lp=0.18 wp=0.6
+.ends rdwr_drive
+
+
+*******************************************************************************
+* Sub-Circuit Netlist:                                                        *
+*                          5                                                   *
+* Block: precharge                                                            *
+* Last Time Saved: Dec 12 11:40:27 2006                                       *
+*******************************************************************************
+.subckt precharge bl bl_ precharge
+*.NOPIN gnd
+MP2 bl_ precharge bl vdd p18ll w=0.5 l=0.18
+MP1 bl_ precharge vdd vdd p18ll w=2.0 l=0.18
+MP0 bl precharge vdd vdd p18ll w=2.0 l=0.18
+.ends precharge
+
+
+*******************************************************************************
+* Sub-Circuit Netlist:                                                        *
+*                            6                                                 *
+* Block: memcell                                                              *
+* Last Time Saved: Dec 12 09:51:41 2006                                       *
+*******************************************************************************
+.subckt memcell BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7>
++BL<6> BL<5> BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12>
++BL_<11> BL_<10> BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1>
++BL_<0> WL
+MN0_15 BL<15> WL d<15> gnd n18ll w=0.24 l=0.22
+MN0_14 BL<14> WL d<14> gnd n18ll w=0.24 l=0.22
+MN0_13 BL<13> WL d<13> gnd n18ll w=0.24 l=0.22
+MN0_12 BL<12> WL d<12> gnd n18ll w=0.24 l=0.22
+MN0_11 BL<11> WL d<11> gnd n18ll w=0.24 l=0.22
+MN0_10 BL<10> WL d<10> gnd n18ll w=0.24 l=0.22
+MN0_9 BL<9> WL d<9> gnd n18ll w=0.24 l=0.22
+MN0_8 BL<8> WL d<8> gnd n18ll w=0.24 l=0.22
+MN0_7 BL<7> WL d<7> gnd n18ll w=0.24 l=0.22
+MN0_6 BL<6> WL d<6> gnd n18ll w=0.24 l=0.22
+MN0_5 BL<5> WL d<5> gnd n18ll w=0.24 l=0.22
+MN0_4 BL<4> WL d<4> gnd n18ll w=0.24 l=0.22
+MN0_3 BL<3> WL d<3> gnd n18ll w=0.24 l=0.22
+MN0_2 BL<2> WL d<2> gnd n18ll w=0.24 l=0.22
+MN0_1 BL<1> WL d<1> gnd n18ll w=0.24 l=0.22
+MN0_0 BL<0> WL d<0> gnd n18ll w=0.24 l=0.22
+MN1_15 d_<15> WL BL_<15> gnd n18ll w=0.24 l=0.22
+MN1_14 d_<14> WL BL_<14> gnd n18ll w=0.24 l=0.22
+MN1_13 d_<13> WL BL_<13> gnd n18ll w=0.24 l=0.22
+MN1_12 d_<12> WL BL_<12> gnd n18ll w=0.24 l=0.22
+MN1_11 d_<11> WL BL_<11> gnd n18ll w=0.24 l=0.22
+MN1_10 d_<10> WL BL_<10> gnd n18ll w=0.24 l=0.22
+MN1_9 d_<9> WL BL_<9> gnd n18ll w=0.24 l=0.22
+MN1_8 d_<8> WL BL_<8> gnd n18ll w=0.24 l=0.22
+MN1_7 d_<7> WL BL_<7> gnd n18ll w=0.24 l=0.22
+MN1_6 d_<6> WL BL_<6> gnd n18ll w=0.24 l=0.22
+MN1_5 d_<5> WL BL_<5> gnd n18ll w=0.24 l=0.22
+MN1_4 d_<4> WL BL_<4> gnd n18ll w=0.24 l=0.22
+MN1_3 d_<3> WL BL_<3> gnd n18ll w=0.24 l=0.22
+MN1_2 d_<2> WL BL_<2> gnd n18ll w=0.24 l=0.22
+MN1_1 d_<1> WL BL_<1> gnd n18ll w=0.24 l=0.22
+MN1_0 d_<0> WL BL_<0> gnd n18ll w=0.24 l=0.22
+XI0_15 d<15> d_<15> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_14 d<14> d_<14> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_13 d<13> d_<13> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_12 d<12> d_<12> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_11 d<11> d_<11> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_10 d<10> d_<10> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_9 d<9> d_<9> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_8 d<8> d_<8> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_7 d<7> d_<7> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_6 d<6> d_<6> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_5 d<5> d_<5> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_4 d<4> d_<4> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_3 d<3> d_<3> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_2 d<2> d_<2> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_1 d<1> d_<1> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI0_0 d<0> d_<0> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_15 d_<15> d<15> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_14 d_<14> d<14> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_13 d_<13> d<13> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_12 d_<12> d<12> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_11 d_<11> d<11> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_10 d_<10> d<10> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_9 d_<9> d<9> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_8 d_<8> d<8> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_7 d_<7> d<7> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_6 d_<6> d<6> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_5 d_<5> d<5> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_4 d_<4> d<4> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_3 d_<3> d<3> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_2 d_<2> d<2> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_1 d_<1> d<1> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+XI1_0 d_<0> d<0> inv ln=0.18 wn=0.35 lp=0.18 wp=0.20
+.ends memcell
+
+
+*******************************************************************************
+* Sub-Circuit Netlist:                                                        *
+*                             7                                                *
+* Block: memarray_64x16                                                       *
+* Last Time Saved: Dec 12 11:40:37 2006                                       *
+*******************************************************************************
+.subckt memarray_64x16 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8>
++BL<7> BL<6> BL<5> BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13>
++BL_<12> BL_<11> BL_<10> BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3>
++BL_<2> BL_<1> BL_<0> WL<63> WL<62> WL<61> WL<60> WL<59> WL<58> WL<57> WL<56>
++WL<55> WL<54> WL<53> WL<52> WL<51> WL<50> WL<49> WL<48> WL<47> WL<46> WL<45>
++WL<44> WL<43> WL<42> WL<41> WL<40> WL<39> WL<38> WL<37> WL<36> WL<35> WL<34>
++WL<33> WL<32> WL<31> WL<30> WL<29> WL<28> WL<27> WL<26> WL<25> WL<24> WL<23>
++WL<22> WL<21> WL<20> WL<19> WL<18> WL<17> WL<16> WL<15> WL<14> WL<13> WL<12>
++WL<11> WL<10> WL<9> WL<8> WL<7> WL<6> WL<5> WL<4> WL<3> WL<2> WL<1> WL<0>
+MN0_15 gnd gnd BL<15> gnd n18ll w=0.24 l=0.22 m=2
+MN0_14 gnd gnd BL<14> gnd n18ll w=0.24 l=0.22 m=2
+MN0_13 gnd gnd BL<13> gnd n18ll w=0.24 l=0.22 m=2
+MN0_12 gnd gnd BL<12> gnd n18ll w=0.24 l=0.22 m=2
+MN0_11 gnd gnd BL<11> gnd n18ll w=0.24 l=0.22 m=2
+MN0_10 gnd gnd BL<10> gnd n18ll w=0.24 l=0.22 m=2
+MN0_9 gnd gnd BL<9> gnd n18ll w=0.24 l=0.22 m=2
+MN0_8 gnd gnd BL<8> gnd n18ll w=0.24 l=0.22 m=2
+MN0_7 gnd gnd BL<7> gnd n18ll w=0.24 l=0.22 m=2
+MN0_6 gnd gnd BL<6> gnd n18ll w=0.24 l=0.22 m=2
+MN0_5 gnd gnd BL<5> gnd n18ll w=0.24 l=0.22 m=2
+MN0_4 gnd gnd BL<4> gnd n18ll w=0.24 l=0.22 m=2
+MN0_3 gnd gnd BL<3> gnd n18ll w=0.24 l=0.22 m=2
+MN0_2 gnd gnd BL<2> gnd n18ll w=0.24 l=0.22 m=2
+MN0_1 gnd gnd BL<1> gnd n18ll w=0.24 l=0.22 m=2
+MN0_0 gnd gnd BL<0> gnd n18ll w=0.24 l=0.22 m=2
+MN1_15 gnd gnd BL_<15> gnd n18ll w=0.24 l=0.22 m=2
+MN1_14 gnd gnd BL_<14> gnd n18ll w=0.24 l=0.22 m=2
+MN1_13 gnd gnd BL_<13> gnd n18ll w=0.24 l=0.22 m=2
+MN1_12 gnd gnd BL_<12> gnd n18ll w=0.24 l=0.22 m=2
+MN1_11 gnd gnd BL_<11> gnd n18ll w=0.24 l=0.22 m=2
+MN1_10 gnd gnd BL_<10> gnd n18ll w=0.24 l=0.22 m=2
+MN1_9 gnd gnd BL_<9> gnd n18ll w=0.24 l=0.22 m=2
+MN1_8 gnd gnd BL_<8> gnd n18ll w=0.24 l=0.22 m=2
+MN1_7 gnd gnd BL_<7> gnd n18ll w=0.24 l=0.22 m=2
+MN1_6 gnd gnd BL_<6> gnd n18ll w=0.24 l=0.22 m=2
+MN1_5 gnd gnd BL_<5> gnd n18ll w=0.24 l=0.22 m=2
+MN1_4 gnd gnd BL_<4> gnd n18ll w=0.24 l=0.22 m=2
+MN1_3 gnd gnd BL_<3> gnd n18ll w=0.24 l=0.22 m=2
+MN1_2 gnd gnd BL_<2> gnd n18ll w=0.24 l=0.22 m=2
+MN1_1 gnd gnd BL_<1> gnd n18ll w=0.24 l=0.22 m=2
+MN1_0 gnd gnd BL_<0> gnd n18ll w=0.24 l=0.22 m=2
+XI0_63 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<63>
++memcell
+XI0_62 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<62>
++memcell
+XI0_61 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<61>
++memcell
+XI0_60 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<60>
++memcell
+XI0_59 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<59>
++memcell
+XI0_58 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<58>
++memcell
+XI0_57 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<57>
++memcell
+XI0_56 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<56>
++memcell
+XI0_55 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<55>
++memcell
+XI0_54 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<54>
++memcell
+XI0_53 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<53>
++memcell
+XI0_52 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<52>
++memcell
+XI0_51 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<51>
++memcell
+XI0_50 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<50>
++memcell
+XI0_49 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<49>
++memcell
+XI0_48 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<48>
++memcell
+XI0_47 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<47>
++memcell
+XI0_46 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<46>
++memcell
+XI0_45 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<45>
++memcell
+XI0_44 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<44>
++memcell
+XI0_43 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<43>
++memcell
+XI0_42 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<42>
++memcell
+XI0_41 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<41>
++memcell
+XI0_40 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<40>
++memcell
+XI0_39 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<39>
++memcell
+XI0_38 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<38>
++memcell
+XI0_37 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<37>
++memcell
+XI0_36 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<36>
++memcell
+XI0_35 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<35>
++memcell
+XI0_34 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<34>
++memcell
+XI0_33 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<33>
++memcell
+XI0_32 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<32>
++memcell
+XI0_31 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<31>
++memcell
+XI0_30 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<30>
++memcell
+XI0_29 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<29>
++memcell
+XI0_28 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<28>
++memcell
+XI0_27 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<27>
++memcell
+XI0_26 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<26>
++memcell
+XI0_25 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<25>
++memcell
+XI0_24 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<24>
++memcell
+XI0_23 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<23>
++memcell
+XI0_22 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<22>
++memcell
+XI0_21 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<21>
++memcell
+XI0_20 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<20>
++memcell
+XI0_19 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<19>
++memcell
+XI0_18 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<18>
++memcell
+XI0_17 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<17>
++memcell
+XI0_16 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<16>
++memcell
+XI0_15 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<15>
++memcell
+XI0_14 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<14>
++memcell
+XI0_13 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<13>
++memcell
+XI0_12 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<12>
++memcell
+XI0_11 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<11>
++memcell
+XI0_10 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<10>
++memcell
+XI0_9 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<9>
++memcell
+XI0_8 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<8>
++memcell
+XI0_7 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<7>
++memcell
+XI0_6 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<6>
++memcell
+XI0_5 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<5>
++memcell
+XI0_4 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<4>
++memcell
+XI0_3 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<3>
++memcell
+XI0_2 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<2>
++memcell
+XI0_1 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<1>
++memcell
+XI0_0 BL<15> BL<14> BL<13> BL<12> BL<11> BL<10> BL<9> BL<8> BL<7> BL<6> BL<5>
++BL<4> BL<3> BL<2> BL<1> BL<0> BL_<15> BL_<14> BL_<13> BL_<12> BL_<11> BL_<10>
++BL_<9> BL_<8> BL_<7> BL_<6> BL_<5> BL_<4> BL_<3> BL_<2> BL_<1> BL_<0> WL<0>
++memcell
+.ends memarray_64x16
