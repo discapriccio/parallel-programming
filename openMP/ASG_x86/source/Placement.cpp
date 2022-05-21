@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include "../head/Placement.h"
+#include <windows.h>
 
 
 using namespace std;
@@ -234,7 +235,7 @@ void bfsInitPlacementParr(Net netParam)  //并行bfs初步布局（Pthread）
         //break;
     }
 
-    //验证
+/*    //验证
     cout<<endl;
     cout<<"test"<<endl;
     for(int i=0;i<rowCol.size();i++)
@@ -242,7 +243,7 @@ void bfsInitPlacementParr(Net netParam)  //并行bfs初步布局（Pthread）
         for(int j=0;j<rowCol[i].size();j++)
             cout<<rowCol[i][j]<<" ";
         cout<<"/"<<endl;
-    }
+    }*/
 }
 
 
@@ -259,7 +260,7 @@ void bfsInitPlacementParrOmp(Net netParam,vector<vector<int>>& rowCol)  //并行
     vector<int> curColVec;
     static omp_lock_t lock;
     omp_init_lock(&lock); // 初始化互斥锁
-    #pragma omp parallel num_threads(thread_count) private(curCnt,curColVec) reduction(+:cntOmp)
+    #pragma omp parallel num_threads(thread_count) default(none) shared(netParam,isSelected,lock,colVec) private(curCnt,curColVec) reduction(+:cntOmp)
     {
         //cout<<"hello from"<<omp_get_thread_num()<<endl;
         #pragma omp for
@@ -292,13 +293,26 @@ void bfsInitPlacementParrOmp(Net netParam,vector<vector<int>>& rowCol)  //并行
     cout<<rowCol[0].size()<<endl;
     for(int i=0;i<rowCol[0].size();i++)
         cout<<rowCol[0][i]<<" ";
+    cout<<"openmp phrase 1 done"<<endl;
     cout<<endl;*/
 
     int curCol=0;  //目前在从第几列的元件找下一列的元件
     static omp_lock_t lock2;
     omp_init_lock(&lock2); // 初始化互斥锁2
     colVec.clear();
-    #pragma omp parallel num_threads(thread_count) shared(cntOmp,curCol,rowCol,colVec) private(curCnt,curColVec)
+
+    LARGE_INTEGER tm1,tm2,tmc;
+    QueryPerformanceFrequency(&tmc);
+    QueryPerformanceCounter(&tm1);
+    //static omp_lock_t* lockDev=new omp_lock_t [netParam.devices.size()];  //元件锁
+    omp_lock_t* lockDev=new omp_lock_t [netParam.devices.size()];  //元件锁
+    for(int i=0;i<netParam.devices.size();i++)
+        omp_init_lock(&lockDev[i]);
+    QueryPerformanceCounter(&tm2);
+    double time=(double)(tm2.QuadPart-tm1.QuadPart)/(double)tmc.QuadPart;
+    cout<<"device lock initialize time:"<<time*1000<<"ms"<<endl<<endl;
+
+    #pragma omp parallel num_threads(thread_count) shared(cntOmp,curCol,rowCol,colVec,isSelected,lockDev,lock2,netParam) private(curCnt,curColVec)
     {
         //cout<<"scucessfully create threads"<<endl;
         while (1)
@@ -308,6 +322,7 @@ void bfsInitPlacementParrOmp(Net netParam,vector<vector<int>>& rowCol)  //并行
             curCnt = 0;
             curColVec.clear();
             if(omp_get_thread_num()==1)
+            //#pragma omp master
             {
                 colVec.clear();
             }
@@ -317,34 +332,47 @@ void bfsInitPlacementParrOmp(Net netParam,vector<vector<int>>& rowCol)  //并行
             {
                 int id = rowCol[curCol][i];
                 //int curRow = 0;
+//#pragma for
                 for (int j = 0; j < netParam.devices[id].d.size(); j++) {
                     int id2 = netParam.devices[id].d[j];
-                    if (isSelected[id2]) continue;
-                    curCnt++;
+                    //if(omp_test_lock(&lockDev[id2])) continue;  //若该元件已被一线程锁定
+                    omp_set_lock(&lockDev[id2]);  //加元件锁
+                    //omp_test_lock(&lockDev[id2]);  //加元件锁
+                    if (isSelected[id2])
+                    {
+                        omp_unset_lock(&lockDev[id2]);  //解元件锁
+                        continue;
+                    }
+                    //omp_set_lock(&lockDev[id2]);  //加元件锁
                     curColVec.push_back(id2);
                     isSelected[id2] = true;
+                    curCnt++;
                     netParam.devices[id2].col = curCol + 1;
+                    omp_unset_lock(&lockDev[id2]);  //解元件锁
                     //netParam.devices[id2].row = curRow++;
                 }
             }
-            //cout<<"curCnt:"<<curCnt<<endl;
+            cout<<"curCnt:"<<curCnt<<endl;
             //cntOmp+=curCnt;
             omp_set_lock(&lock2); //获得互斥器2
             colVec.insert(colVec.end(),curColVec.begin(),curColVec.end());
             cntOmp+=curCnt;
+            //cout<<curCnt<<endl;
             omp_unset_lock(&lock2); //释放互斥器2
             #pragma omp barrier
             if(omp_get_thread_num()==1)
+            //#pragma omp master
             {
                 curCol++;   //只让主线程进行此操作，否则curCol将会加thread_num次
                 rowCol.push_back(colVec);
-                //cout<<"cntOmp:"<<cntOmp<<endl;
+                cout<<"cntOmp:"<<cntOmp<<endl;
                 colVec.clear();
-                if (cntOmp >= netParam.devices.size()) break;
+                if (cntOmp == netParam.devices.size()) break;
             }
             //cout<<netParam.devices.size()<<endl;
             //break;
-            if (cntOmp >= netParam.devices.size()) break;
+            //#pragma omp barrier
+            if (cntOmp == netParam.devices.size()) break;
         }
     }
 
@@ -358,6 +386,8 @@ void bfsInitPlacementParrOmp(Net netParam,vector<vector<int>>& rowCol)  //并行
         cout<<"/"<<endl;
     }*/
 }
+
+
 
 void valuePropagationOptiPlc(Net& netParam, vector<vector<int>> &rowCol)  //值传播优化列内布局
 {

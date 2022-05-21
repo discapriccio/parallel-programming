@@ -14,7 +14,7 @@
 #define ASG_PLACEMENT_H
 
 
-void bfsInitPlacement(Net& net,vector<vector<int>>& rowCol);  //bfs初步布局
+void bfsInitPlacement(Net& netParam,vector<vector<int>>& rowCol);  //bfs初步布局
 void bfsInitPlacementParr(Net netParam);  //并行bfs初步布局（Pthread）
 void bfsInitPlacementParrOmp(Net netParam,vector<vector<int>>& rowCol);  //并行bfs初步布局（OpenMP）
 

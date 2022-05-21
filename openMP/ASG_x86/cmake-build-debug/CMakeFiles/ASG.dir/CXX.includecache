@@ -42,9 +42,15 @@ algorithm
 cmath
 -
 
-C:/Users/xingyu/CLionProjects/ASG/source/Placement.cpp
-cmath
+C:/Users/xingyu/CLionProjects/ASG/source/main.cpp
+windows.h
 -
+iostream
+-
+../head/Parser.h
+C:/Users/xingyu/CLionProjects/ASG/head/Parser.h
+../head/Net.h
+C:/Users/xingyu/CLionProjects/ASG/head/Net.h
 ../head/Placement.h
 C:/Users/xingyu/CLionProjects/ASG/head/Placement.h
 

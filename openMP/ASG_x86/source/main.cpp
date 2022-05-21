@@ -70,6 +70,7 @@ int main() {
     }
     cout<<endl;
 
+    vector<vector<int>> emp;
 /*    QueryPerformanceFrequency(&tmc);
     QueryPerformanceCounter(&tm1);
     for(int i=0;i<cir;i++)
@@ -77,14 +78,13 @@ int main() {
     QueryPerformanceCounter(&tm2);
     time=(double)(tm2.QuadPart-tm1.QuadPart)/(double)tmc.QuadPart;
     cout<<"parallel pthread (QueryPerformanceCounter):"<<time*1000/cir<<"ms"<<endl<<endl;
-    cout<<"rowCol size:"<<rowCol.size()<<endl;*/
+    cout<<"rowCol size:"<<rowCol.size()<<endl;
 
-/*
     vector<vector<int>> emp;
-
     rowCol.clear();
     rowCol.swap(emp);
     cout<<"rowCol size:"<<rowCol.size()<<endl;
+
     QueryPerformanceFrequency(&tmc);
     QueryPerformanceCounter(&tm1);
     for(int i=0;i<cir;i++)
@@ -97,16 +97,27 @@ int main() {
     {
         cout<<rowCol[i].size()<<" ";
     }
-    cout<<endl;
-*/
+    cout<<endl;*/
 
-    QueryPerformanceFrequency(&tmc);
+
+   /* QueryPerformanceFrequency(&tmc);
     QueryPerformanceCounter(&tm1);
     for(int i=0;i<cir;i++)
         valuePropagationOptiPlc(netVector[tm],rowCol);
     QueryPerformanceCounter(&tm2);
     time=(double)(tm2.QuadPart-tm1.QuadPart)/(double)tmc.QuadPart;
     cout<<"chuanxing value propagation optimize placement (QueryPerformanceCounter):"<<time*1000/cir<<"ms"<<endl<<endl;
+    for(int i=0;i<rowCol.size();i++)
+    {
+        cout<<rowCol[i].size()<<" ";
+    }
+    cout<<endl;
+
+
+    rowCol.clear();
+    rowCol.swap(emp);
+    bfsInitPlacement(netVector[tm],rowCol);  //串行bfs初步布局*/
+
 
     QueryPerformanceFrequency(&tmc);
     QueryPerformanceCounter(&tm1);
@@ -122,7 +133,13 @@ int main() {
     }
     cout<<endl;
 
-    QueryPerformanceFrequency(&tmc);
+/*
+    rowCol.clear();
+    rowCol.swap(emp);
+    bfsInitPlacement(netVector[tm],rowCol);  //串行bfs初步布局*/
+
+
+/*    QueryPerformanceFrequency(&tmc);
     QueryPerformanceCounter(&tm1);
     for(int i=0;i<cir;i++)
         valuePropagationOptiPlcOmpDyna(netVector[tm],rowCol);
@@ -134,6 +151,6 @@ int main() {
     {
         cout<<rowCol[i].size()<<" ";
     }
-    cout<<endl;
+    cout<<endl;*/
     return 1;
 }
